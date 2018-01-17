@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://pheely.io/get-movie-web-service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://pheely.io/get-movie-web-service" targetNamespace="http://pheely.io/get-movie-web-service">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://pheely.io/get-movie-web-service">
+      <xs:element name="getMovieRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getMovieResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="movie" type="tns:movie"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="movie">
+        <xs:sequence>
+          <xs:element name="name" type="xs:string"/>
+          <xs:element name="genra" type="xs:string"/>
+          <xs:element name="director" type="xs:string"/>
+          <xs:element name="year" type="xs:int"/>
+          <xs:element name="country" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getMovieRequest">
+    <wsdl:part element="tns:getMovieRequest" name="getMovieRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getMovieResponse">
+    <wsdl:part element="tns:getMovieResponse" name="getMovieResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="MoviesPort">
+    <wsdl:operation name="getMovie">
+      <wsdl:input message="tns:getMovieRequest" name="getMovieRequest"/>
+      <wsdl:output message="tns:getMovieResponse" name="getMovieResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MoviesPortSoap11" type="tns:MoviesPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getMovie">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getMovieRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMovieResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MoviesPortService">
+    <wsdl:port binding="tns:MoviesPortSoap11" name="MoviesPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
